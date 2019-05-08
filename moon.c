@@ -9,9 +9,6 @@
 int scene=0;
 float i=0.0,m=0.0,n=0.0,o=0.0,c=0,d=0,x=1,y=1,j,z=0; 
 float main_zoom = 1.0;
-//int zoom_in = 1;
-//float zoom_speed = 0.003;
-//float zoom_back_speed = 0.003;
 int xx = 0;
 int comet=0;      
 char ch;
@@ -86,7 +83,8 @@ void DrawCircle(float cx, float cy, float cz, float r, int num_segments)
 			y = r * sinf(theta);
 			glVertex3f(x + cx, y + cy, cz);
 		}
-		else if(moon==0){
+		else if(moon==0)
+		{
 			glColor3f(1,1,1);
 			i = (float)ii/(float)num_segments;
 			theta = 2.0f*3.1415926f*i;
@@ -94,19 +92,17 @@ void DrawCircle(float cx, float cy, float cz, float r, int num_segments)
 			y = r * sinf(theta);
 			glVertex3f(x + cx, y + cy, cz);
 		}
-		else{
-			
+		else
+		{		
 			i = (float)ii/(float)num_segments;
 			theta = 2.0f*3.1415926f*i;
 			x = r * cosf(theta);
 			y = r * sinf(theta);
 			glVertex3f(x + cx, y + cy, cz);
 		}
-			
-           
+			           
 	}
 	glEnd();
-	
 }
 
 void Moon()
@@ -137,10 +133,10 @@ void star()
 void Explosion()
 {		
 		if(d==300)
-		{moon=4;
-		 glColor3f(1,0.5,0);
+		{   moon=4;
+	            glColor3f(1,0.5,0);
 		    DrawCircle(500, 325, 0,25,360);
-		 glColor3f(1,1,0);
+		    glColor3f(1,1,0);
 		    DrawCircle(500, 325, 0,20,360);
 		    glColor3f(1,1,1);
 		    DrawCircle(500, 325, 0,10,360);
@@ -154,7 +150,7 @@ void Comet()
 		glColor3f(1.0,1.0,1.0);
 		moon = 0;
 		Explosion();
-		DrawCircle(200+d,325,0,10,360);//550,350,0,10,360
+		DrawCircle(200+d,325,0,10,360);
 					
 		glColor3f(1.0,1.0,1.0);
 		glBegin(GL_TRIANGLES);
@@ -218,7 +214,7 @@ void drawstring(float x,float y,float z,char *string)
 }
 void drawFireworks()
 {
-  if (firework_size < 200)
+  if (firework_size < 200) //animates the firework
   {
     firework_size++;
     glEnable(GL_POLYGON_STIPPLE);
@@ -233,7 +229,7 @@ void drawFireworks()
     glColor3f(1.0, 0.0, 1.0);
     DrawCircle(180+x, 350, 0, firework_size, 100);
     glDisable(GL_POLYGON_STIPPLE);
-    if(firework_size ==200)
+    if(firework_size ==200) //stops the fireworks
     	scene=6;
   }
   
@@ -253,7 +249,6 @@ void draw_object()
     	//assigning coordinates for the earth
 	if(scene==2 || scene == 3 || scene ==4)
 	{	drawstring(890,650,0,"Press enter to continue -->");
-		drawstring(20,650,0,"<-- Press 'b' to go back");	
 		drawImage(480,290,150,150,bgTexture5);
 	}
 	if(scene == 3)
@@ -270,9 +265,9 @@ void draw_object()
 	{	if(scene ==1){
 		glColor3f(1,1,1);
 		drawstring(890,650,0,"Press enter to continue -->");
-		drawstring(20,650,0,"<-- Press 'b' to go back");
-        	drawstring(190,100,0,"Around 45 billion years ago, an astronomical body nearly of the size of Mars, Theia, was moving 	towards the earth.");}
-        	else{glColor3f(1,1,1);
+	  	drawstring(190,100,0,"Around 45 billion years ago, an astronomical body nearly of the size of Mars, Theia, was moving 	towards the earth.");}
+        	else{
+		glColor3f(1,1,1);
         	drawstring(190,100,0,"Intense heat was created by the impact and huge amounts of debris from both earth and theia were thrown into the space.");}
 		Comet();
 	}
@@ -284,8 +279,7 @@ void draw_object()
 		glEnd();
 		
 	}
-	
-	
+		
 	glEnd();
 	glPopMatrix();
    	glFlush();
@@ -318,7 +312,7 @@ void drawMainScene()
                 glVertex2f(1100,700);
                 glVertex2f(0,700);
         glEnd();
-  //glClearColor(1.0,1.0, 1.0, 1.0);
+  
   char h1[] = "COMPUTER GRAPHICS PROJECT"; 
   char h2[] = "CREATION OF MOON";
   char h3[] = "by";
@@ -346,8 +340,6 @@ void keyboardDown(unsigned char key, int x, int y)
 		  case 13: //enter key
 		    scene += 1;
 		    break;
-		  case 'b': scene-=1;
-		  	break;
 		  case 'Q':
 		  case 'q':
 		  case  27:   // ESC
@@ -496,7 +488,7 @@ int main(int argc,char** argv)
 	myinit();
 	
 	
-	// create a sub menu 
+  // create a sub menu 
   int subMenu = glutCreateMenu(menu);
   glutAddMenuEntry("Do nothing", 0);
   glutAddMenuEntry("Really Quit", 'q');
@@ -506,8 +498,6 @@ int main(int argc,char** argv)
   glutAddSubMenu("Sub Menu", subMenu);
   glutAddMenuEntry("Quit", 'q');
   glutAttachMenu(GLUT_RIGHT_BUTTON);
- 
-  //initGL(1244, 700);
  
 	glutMainLoop();
 	return 0;
