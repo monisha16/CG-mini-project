@@ -9,17 +9,51 @@
 int scene=0;
 float i=0.0,m=0.0,n=0.0,o=0.0,c=0,d=0,x=1,y=1,j,z=0; 
 float main_zoom = 1.0;
-int zoom_in = 1;
-float zoom_speed = 0.003;
-float zoom_back_speed = 0.003;
-//double rotatex=0.5;
-//double rotatey=0.5;
-
+//int zoom_in = 1;
+//float zoom_speed = 0.003;
+//float zoom_back_speed = 0.003;
 int xx = 0;
 int comet=0;      
 char ch;
 int moon = 0;
+int firework_position = 0;
+int firework_size = 0;
 
+GLubyte patt[] = {
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x22, 0x22, 0x22, 0x22,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x22, 0x22, 0x22, 0x22,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x22, 0x22, 0x22, 0x22,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00,
+  0x22, 0x22, 0x22, 0x22,
+  0x00, 0x00, 0x00, 0x00
+
+};
 void menu(int op) {
  
   switch(op) {
@@ -172,10 +206,9 @@ void Debris()
 	DrawCircle(650-x,390+0.5*y,0,6,500);
 	DrawCircle(450+1.3*x,348-0.2*y,0,6.8,500);
 	glPopMatrix();
-	
-	
-
+	glEnd();
 }
+
 void drawstring(float x,float y,float z,char *string)
 {
         char *c;
@@ -183,7 +216,28 @@ void drawstring(float x,float y,float z,char *string)
         for(c=string;*c!='\0';c++)
  	        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,*c);
 }
-
+void drawFireworks()
+{
+  if (firework_size < 200)
+  {
+    firework_size++;
+    glEnable(GL_POLYGON_STIPPLE);
+    glPolygonStipple(patt);
+    x=150;
+    glColor3f(1.0, 1.0, 0.0);
+    DrawCircle(450+x, 350, 0, firework_size, 100);
+    glColor3f(1.0, 0.5, 1.0);
+    DrawCircle(300+x, 350, 0, firework_size, 100);
+    glColor3f(1.0, 1.0, 1.0);
+    DrawCircle(600+x, 350, 0, firework_size, 100);
+    glColor3f(1.0, 0.0, 1.0);
+    DrawCircle(180+x, 350, 0, firework_size, 100);
+    glDisable(GL_POLYGON_STIPPLE);
+    if(firework_size ==200)
+    	scene=6;
+  }
+  
+}
 void draw_object()
 {	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.0,0.0,0.0);
@@ -194,27 +248,41 @@ void draw_object()
 	glVertex2f(1100,0);
 	glEnd();
 	glPushMatrix();
-	star();
+	if(scene !=5)
+		star();
     	//assigning coordinates for the earth
 	if(scene==2 || scene == 3 || scene ==4)
-		drawImage(480,290,150,150,bgTexture5);	
+	{	drawstring(890,650,0,"Press enter to continue -->");
+		drawstring(20,650,0,"<-- Press 'b' to go back");	
+		drawImage(480,290,150,150,bgTexture5);
+	}
 	if(scene == 3)
 	{	glColor3f(1,1,1);
-        	drawstring(350,100,0,"These debris coalesces as it rotated arount the earth's orbit.");
+        	drawstring(350,100,0,"These debris combined together as it rotated arount the earth's orbit.");
 		Debris();
 	}
 	if(scene == 4)
 	{	glColor3f(1,1,1);
-        	drawstring(250,100,0,"The debris after millions of years formed another selestial body now known as The Moon.");
+        	drawstring(250,100,0,"The debris after millions of years formed another selestial body now known as The MOON.");
 		Moon();
 	}
 	if(scene == 1 || scene ==2)
 	{	if(scene ==1){
 		glColor3f(1,1,1);
-        	drawstring(190,100,0,"Around a 45 billion years ago, an astronomical body nearly of the size of Mars, Theia was moving 			towards earth.");}
+		drawstring(890,650,0,"Press enter to continue -->");
+		drawstring(20,650,0,"<-- Press 'b' to go back");
+        	drawstring(190,100,0,"Around 45 billion years ago, an astronomical body nearly of the size of Mars, Theia, was moving 	towards the earth.");}
         	else{glColor3f(1,1,1);
-        	drawstring(190,100,0,"Intense heat was created by the impact and huge amounts of debris from both earth and theia were 			thrown into the space.");}
+        	drawstring(190,100,0,"Intense heat was created by the impact and huge amounts of debris from both earth and theia were thrown into the space.");}
 		Comet();
+	}
+	if(scene ==5)
+	{
+		drawFireworks();
+		glColor3f(0.5,0.8,0.4);
+		drawstring(500,350,0,"THANK YOU");
+		glEnd();
+		
 	}
 	
 	
@@ -278,6 +346,8 @@ void keyboardDown(unsigned char key, int x, int y)
 		  case 13: //enter key
 		    scene += 1;
 		    break;
+		  case 'b': scene-=1;
+		  	break;
 		  case 'Q':
 		  case 'q':
 		  case  27:   // ESC
@@ -302,11 +372,7 @@ void keyboardSpecialUp(int k, int x, int y) {
 
 /* executed when button 'button' is put into state 'state' at screen position ('x', 'y') */
 void mouseClick(int button, int state, int x, int y) {
- /*if(button==3)
-          rotatex -=0.5;
- else
- 	rotatex +=0.5;
- glutPostRedisplay();*/
+
 }
  
 /* executed when the mouse moves to position ('x', 'y') */
@@ -321,8 +387,7 @@ void initRendering()
 
 void scene1()
 {
-      //glScalef(main_zoom, main_zoom, 1);
-	
+     
       draw_object();
       glPopMatrix();
       glEnd();
@@ -350,18 +415,12 @@ void scene4()
 	glEnd();
 }
 
-/* reshaped window 
-void reshape(int width, int height) {
- 
-  GLfloat fieldOfView = 90.0f;
-  glViewport (0, 0, (GLsizei) width, (GLsizei) height);
-  glMatrixMode (GL_PROJECTION);
-  glLoadIdentity();
-  //gluPerspective(60,(GLfloat) width/(GLfloat) height,1.0,100.0);
-  glOrtho(-662, 662, -350, 350, -450, 450);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-}*/
+void scene5()
+{ 
+	draw_object();
+	glPopMatrix();
+	glEnd();
+}
 
 void draw() 
 {
@@ -389,6 +448,10 @@ void draw()
 	    case 4:
 		scene4();
 		break;
+	    case 5:
+	    	scene5();
+	  	break;
+	    default : exit(0);
 	   }
  
           glFlush();
