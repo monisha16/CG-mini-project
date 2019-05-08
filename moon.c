@@ -7,7 +7,7 @@
 
 #define SPEED 30.0
 int scene=0;
-float i=0.0,m=0.0,n=0.0,o=0.0,c=0,d=0,x=1,y=1; 
+float i=0.0,m=0.0,n=0.0,o=0.0,c=0,d=0,x=1,y=1,j,z=0; 
 float main_zoom = 1.0;
 int zoom_in = 1;
 float zoom_speed = 0.003;
@@ -80,7 +80,6 @@ void Moon()
 	
 	for(int l=0;l<=35;l++)
 	{
-		//glColor3f(1.0,1.0,1.0);
 		moon = 1;
 		DrawCircle(300,450,0,30,500);
 		
@@ -114,15 +113,7 @@ void Explosion()
 		 }   
 		    
 }
-/*void display()
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
-	gluLookAt(0.0,0.0,5.0,0.0,0.0,0.0,0.0,1.0,0.0);
-	glScalef(rotatex,rotatex,1.0);
-	glRotatef(rotatey,0.0,1.0,0.0);
-	glutSwapBuffers();
-}*/
+
 void Comet()
 {	if(scene==2)
 	{		
@@ -163,27 +154,27 @@ void Comet()
 
 void Debris()
 {	glPushMatrix();
+	glLoadIdentity();
 	glColor3f(1.0,1.0,1.0);
 	moon = 0;
-	
-	//glRotatef(45,0,0,1);
-	//glTranslatef(690,350,0);
-	DrawCircle(690+x,350+y,0,10.5,500);
-	//glTranslatef(680,350,0);
-	
-	DrawCircle(600+x,347+y,0,5,500);
-	DrawCircle(580+x,340+y,0,9,500);
-	DrawCircle(630+x,330+y,0,9.6,500);
-	DrawCircle(650,360,0,4.7,500);
-	DrawCircle(520,335,0,7,500);
-	DrawCircle(425,375,0,9.3,500);
-	DrawCircle(450,400,0,5,500);
-	DrawCircle(500,330,0,9,500);
-	DrawCircle(650,390,0,6,500);
-	DrawCircle(450,348,0,7,500);
+        if(x<=30 && y<=25){
+        	x+=0.2;
+		y+=0.2;}
+	DrawCircle(690-x,350+y,0,10.5,500);
+	DrawCircle(600+0.5*x,347,0,5,500);
+	DrawCircle(580+0.5*x,340-0.05*y,0,8,500);
+	DrawCircle(630+0.3*x,330+0.05*y,0,8.3,500);
+	DrawCircle(650-0.45*x,360+0.25*y,0,3.7,500);
+	DrawCircle(520+0.9*x,335-0.5*y,0,5,500);
+	DrawCircle(425+x,375-0.6*y,0,8.5,500);
+	DrawCircle(450+x,400+0.2*y,0,4,500);
+	DrawCircle(500+x,330+0.25*x,0,8,500);
+	DrawCircle(650-x,390+0.5*y,0,6,500);
+	DrawCircle(450+1.3*x,348-0.2*y,0,6.8,500);
 	glPopMatrix();
-		//x+=1;
-		//y+=1;
+	
+	
+
 }
 void drawstring(float x,float y,float z,char *string)
 {
@@ -220,9 +211,9 @@ void draw_object()
 	if(scene == 1 || scene ==2)
 	{	if(scene ==1){
 		glColor3f(1,1,1);
-        	drawstring(190,100,0,"Around a 45 billion years ago, an astronomical body nearly of the size of Mars, Theia was moving towards earth.");}
+        	drawstring(190,100,0,"Around a 45 billion years ago, an astronomical body nearly of the size of Mars, Theia was moving 			towards earth.");}
         	else{glColor3f(1,1,1);
-        	drawstring(190,100,0,"Intense heat was created by the impact and huge amounts of debris from both earth and theia were thrown into the space.");}
+        	drawstring(190,100,0,"Intense heat was created by the impact and huge amounts of debris from both earth and theia were 			thrown into the space.");}
 		Comet();
 	}
 	
@@ -418,9 +409,7 @@ void myinit()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0.0,1100.0,0.0,700.0);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-   	//glEnable( GL_BLEND );
-    	loadTexture(&bgTexture5, "8cxBboKcp.png");
+	loadTexture(&bgTexture5, "8cxBboKcp.png");
 }
 
 
