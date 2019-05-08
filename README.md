@@ -22,7 +22,7 @@ approximately 4.5 billion years ago.
     - `gcc moon.c -lm -lGL -lGLU -lglut -lSOIL`
     - `./a.out`
 ### This is how it looks
-*__Kindly ignore the watermark__* :stuck_out_tongue: :sweat_smile:
+*Kindly ignore the watermark* :stuck_out_tongue: :sweat_smile:
     <div style="display:block;margin:auto;height:80%;width:80%">
   <img src="creation_of_moon.gif">
 </div>
